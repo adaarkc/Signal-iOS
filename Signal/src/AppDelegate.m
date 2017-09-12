@@ -438,9 +438,9 @@ static NSString *const kURLHostVerifyPrefix             = @"verify";
     viewController.attachment = attachment;
     UINavigationController *navigationController =
         [[UINavigationController alloc] initWithRootViewController:viewController];
-    [[[Environment getCurrent] signalsViewController] presentTopLevelModalViewController:navigationController
-                                                                        animateDismissal:NO
-                                                                     animatePresentation:YES];
+    [[[Environment getCurrent] homeViewController] presentTopLevelModalViewController:navigationController
+                                                                     animateDismissal:NO
+                                                                  animatePresentation:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -525,7 +525,7 @@ static NSString *const kURLHostVerifyPrefix             = @"verify";
                     // If app has not re-entered active, show screen protection if necessary.
                     [self showScreenProtection];
                 }
-                [[[Environment getCurrent] signalsViewController] updateInboxCountLabel];
+                [[[Environment getCurrent] homeViewController] updateInboxCountLabel];
                 [application endBackgroundTask:bgTask];
             });
         }
@@ -538,7 +538,7 @@ static NSString *const kURLHostVerifyPrefix             = @"verify";
     performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem
                completionHandler:(void (^)(BOOL succeeded))completionHandler {
     if ([TSAccountManager isRegistered]) {
-        [[Environment getCurrent].signalsViewController showNewConversationView];
+        [[Environment getCurrent].homeViewController showNewConversationView];
         completionHandler(YES);
     } else {
         UIAlertController *controller =
@@ -551,12 +551,11 @@ static NSString *const kURLHostVerifyPrefix             = @"verify";
                                                      handler:^(UIAlertAction *_Nonnull action){
 
                                                      }]];
-        [[Environment getCurrent]
-                .signalsViewController.presentedViewController presentViewController:controller
-                                                                            animated:YES
-                                                                          completion:^{
-                                                                            completionHandler(NO);
-                                                                          }];
+        [[Environment getCurrent].homeViewController.presentedViewController presentViewController:controller
+                                                                                          animated:YES
+                                                                                        completion:^{
+                                                                                            completionHandler(NO);
+                                                                                        }];
     }
 }
 
